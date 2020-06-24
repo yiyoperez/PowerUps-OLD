@@ -1,0 +1,6 @@
+main: com.strixmc.powerup.PowerUps
+version: 1.0.0-BETA
+author: Sliide
+name: PowerUps
+
+depend: [HolographicDisplays]
