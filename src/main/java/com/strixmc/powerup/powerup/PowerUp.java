@@ -20,9 +20,6 @@ public interface PowerUp {
 
     List<String> getHologram();
 
-    double getHologramHeight();
-
-    void setHologramHeight(@NotNull double hologramHeight);
 
     List<String> getActions();
 

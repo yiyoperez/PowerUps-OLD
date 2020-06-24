@@ -8,3 +8,14 @@
 #       +==""==+
 
 NoPermission: '&cYou have no permission to perform that!'
+
+No-Available: '&cThere are no available powerups.'
+Available-Powerups: '&aAvailable powerup list.'
+No-Exist: '&cThe powerup %powerup_name% does not exist.'
+Already-Exist: '&cThe powerup %powerup_name% already exist.'
+Already-Enabled: '&eThe powerup %powerup_name% already &aEnabled&e.'
+Already-Disabled: '&eThe powerup %powerup_name% already &cDisabled&e.'
+Created: '&aSuccessfully created powerup %powerup_name% &7(%powerup_id%)&a.'
+Deleted: '&aSuccessfully deleted powerup %powerup_id%.'
+Item-Update: '&aSuccessfully updated powerup %powerup_name% &7(%powerup_id%)&a item %item%.'
+Chance-Update: '&aSuccessfully updated powerup %powerup_name% &7(%powerup_id%)&a chance to %chance%.'

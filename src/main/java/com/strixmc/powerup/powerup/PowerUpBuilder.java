@@ -17,16 +17,14 @@ public class PowerUpBuilder implements PowerUp {
     private String name;
     private double chance;
     private List<String> hologram;
-    private double hologramHeight;
     private List<String> actions;
     private ItemStack item;
 
-    public PowerUpBuilder(String ID, String name, double chance, List<String> hologram, double hologramHeight, List<String> actions) {
+    public PowerUpBuilder(String ID, String name, double chance, List<String> hologram, List<String> actions) {
         this.ID = ID;
         this.name = name;
         this.chance = chance;
         this.hologram = hologram;
-        this.hologramHeight = hologramHeight;
         this.actions = actions;
     }
 

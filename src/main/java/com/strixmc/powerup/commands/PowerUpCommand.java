@@ -49,7 +49,7 @@ public class PowerUpCommand implements CommandClass {
         }
 
         if (powerUpManager.getPowerUps().isEmpty()) {
-            p.sendMessage(Utils.color("There are no available powerups."));
+            p.sendMessage(Utils.color(lang.getNoAvailablePowerUp()));
             return true;
         }
 

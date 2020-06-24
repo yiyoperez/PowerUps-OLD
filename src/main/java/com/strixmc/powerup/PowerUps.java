@@ -63,6 +63,12 @@ public class PowerUps extends JavaPlugin {
 
     private void initInstances() {
 
+        if (!getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+            getLogger().severe("This plugins does need HolographicDisplays as dependency to work.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         SimpleBinderModule module = new SimpleBinderModule(this);
         Injector injector = module.createInjector();
         injector.injectMembers(this);

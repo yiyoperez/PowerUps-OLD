@@ -43,10 +43,9 @@ public class PowerUpManagerProvider implements PowerUpManager {
 
                 String name = plugin.getConfig().getString("PowerUps." + id + ".Display-Name");
                 double chance = plugin.getConfig().getDouble("PowerUps." + id + ".Chance");
-                double hologramHeight = plugin.getConfig().getDouble("PowerUps." + id + ".Hologram-Height");
                 List<String> hologram = plugin.getConfig().getStringList("PowerUps." + id + ".Hologram");
                 List<String> actions = plugin.getConfig().getStringList("PowerUps." + id + ".Actions");
-                PowerUp powerUp = new PowerUpBuilder(id, name, chance, hologram, hologramHeight, actions);
+                PowerUp powerUp = new PowerUpBuilder(id, name, chance, hologram, actions);
 
                 String material = plugin.getConfig().getString("PowerUps." + id + ".Material");
                 int data = plugin.getConfig().getInt("PowerUps." + id + ".Data");
@@ -65,7 +64,6 @@ public class PowerUpManagerProvider implements PowerUpManager {
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Display-Name", powerUp.getName());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Chance", powerUp.getChance());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Hologram", powerUp.getHologram());
-                plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Hologram-Height", powerUp.getHologramHeight());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Actions", powerUp.getActions());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Material", powerUp.getItem().getType().toString());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Data", powerUp.getItem().getData().getData());

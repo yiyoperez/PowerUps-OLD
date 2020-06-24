@@ -11,9 +11,12 @@ public class LangUtilityManager implements LangUtility {
     private PowerUps plugin;
 
     private String noPermission;
+    private String noAvailablePowerUp;
 
     @Override
     public void updateMessages() {
         this.noPermission = plugin.getLang().getString("NoPermission");
+
+        this.noAvailablePowerUp = plugin.getLang().getString("No-Available");
     }
 }

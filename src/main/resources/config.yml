@@ -7,14 +7,21 @@
 #         \  /         Developed by Sliide_
 #       +==""==+
 
+
+Denied-Worlds:
+  - thisworld
+  - andthis_world
+
+# Check more about powerups settings at the wiki https://github.com/yiyoperez/PowerUps/wiki
+
 PowerUps:
   Example:
     Enabled: true
+    Method: CLICK
     Material: SUGAR_CANE
     Data: 0
     Display-Name: '&bSpeed I &7(1 Minute)'
     Chance: 100.0
-    Hologram-Height: 2.0
     Hologram:
       - '&6&lExample PowerUp'
       - '&bGives you Speed effect for 1 minute.'

@@ -7,4 +7,5 @@ public interface LangUtility {
 
     void updateMessages();
 
+    String getNoAvailablePowerUp();
 }
