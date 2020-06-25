@@ -15,6 +15,7 @@ public class PowerUpBuilder implements PowerUp {
 
     private String ID;
     private String name;
+    private boolean enabled;
     private double chance;
     private List<String> hologram;
     private List<String> actions;
@@ -26,6 +27,7 @@ public class PowerUpBuilder implements PowerUp {
         this.chance = chance;
         this.hologram = hologram;
         this.actions = actions;
+        this.enabled = false;
     }
 
     @Override

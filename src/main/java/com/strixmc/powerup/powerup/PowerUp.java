@@ -12,6 +12,10 @@ public interface PowerUp {
 
     String getName();
 
+    boolean isEnabled();
+
+    void setEnabled(@NotNull boolean value);
+
     void setName(@NotNull String name);
 
     double getChance();
