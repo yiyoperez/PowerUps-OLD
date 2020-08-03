@@ -10,8 +10,8 @@ import com.strixmc.powerup.utilities.Utils;
 import com.strixmc.powerup.utilities.lang.LangUtility;
 import me.fixeddev.ebcm.parametric.CommandClass;
 import me.fixeddev.ebcm.parametric.annotation.ACommand;
-import me.fixeddev.ebcm.parametric.annotation.Default;
 import me.fixeddev.ebcm.parametric.annotation.Injected;
+import me.fixeddev.ebcm.parametric.annotation.Optional;
 import me.fixeddev.ebcm.parametric.annotation.Usage;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -24,30 +24,32 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-@ACommand(names = {"powerup", "powerups", "pup"})
+@ACommand(names = {"pu", "pup", "powerups", "powerups"})
 public class PowerUpCommand implements CommandClass {
 
-    @Inject
-    private PowerUps plugin;
-    @Inject
-    private PowerUpManager powerUpManager;
-    @Inject
-    private LangUtility lang;
+    @Inject private PowerUps plugin;
+    @Inject private PowerUpManager powerUpManager;
+    @Inject private LangUtility lang;
 
     @ACommand(names = "")
     public boolean command(@Injected(true) CommandSender sender) {
-        if (!(sender instanceof Player)) return true;
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (!p.hasPermission("powerups.command.main")) {
+                p.sendMessage(lang.getNoPermission());
+                return true;
+            }
 
-        Player p = (Player) sender;
-
-        powerUpManager.spawnPowerUp("example", p.getLocation());
-
+            lang.getHelp().forEach(p::sendMessage);
+        } else {
+            lang.getHelp().forEach(sender::sendMessage);
+        }
         return true;
     }
 
     @ACommand(names = "create")
-    @Usage(usage = "/<command> create <Name>")
-    public boolean createCommand(@Injected(true) CommandSender sender, @Default("Empty !") String name) {
+    @Usage(usage = "/<command> create <name>")
+    public boolean createCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
@@ -80,8 +82,8 @@ public class PowerUpCommand implements CommandClass {
     }
 
     @ACommand(names = "delete")
-    @Usage(usage = "/<command> delete <Name>")
-    public boolean deleteCommand(@Injected(true) CommandSender sender, @Default("Empty !") String name) {
+    @Usage(usage = "/<command> delete <name>")
+    public boolean deleteCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
@@ -111,19 +113,18 @@ public class PowerUpCommand implements CommandClass {
     }
 
     @ACommand(names = "enable")
-    @Usage(usage = "/<command> delete <Name>")
-    public boolean enableCommand(@Injected(true) CommandSender sender, @Default("Empty !") String name) {
+    @Usage(usage = "/<command> enable <name>")
+    public boolean enableCommand(@Injected(true) CommandSender sender, @Optional String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
-
 
         if (!p.hasPermission("powerups.command.enable")) {
             p.sendMessage(Utils.color(lang.getNoPermission()));
             return true;
         }
 
-        if (!name.equals("Empty !")) {
+        if (name != null) {
 
             String ID = ChatColor.stripColor(Utils.color(name)).toUpperCase();
 
@@ -145,13 +146,12 @@ public class PowerUpCommand implements CommandClass {
             return true;
         }
 
-
         return false;
     }
 
     @ACommand(names = "disable")
-    @Usage(usage = "/<command> disable <Name>")
-    public boolean disableCommand(@Injected(true) CommandSender sender, @Default("Empty !") String name) {
+    @Usage(usage = "/<command> disable <name>")
+    public boolean disableCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
@@ -188,6 +188,38 @@ public class PowerUpCommand implements CommandClass {
         return false;
     }
 
+    @ACommand(names = "spawn")
+    @Usage(usage = "/<command> spawn <name>")
+    public boolean spawnCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
+        if (!(sender instanceof Player)) return true;
+
+        Player p = (Player) sender;
+
+
+        if (!p.hasPermission("powerups.command.spawn")) {
+            p.sendMessage(Utils.color(lang.getNoPermission()));
+            return true;
+        }
+
+        if (!name.equals("Empty !")) {
+
+            String ID = ChatColor.stripColor(Utils.color(name)).toUpperCase();
+
+            if (!powerUpManager.contains(ID)) {
+                p.sendMessage(Utils.color(lang.getNoExist(ID)));
+                return true;
+            }
+
+            PowerUp powerUp = powerUpManager.getPowerUp(name);
+
+            //todo
+            return true;
+        }
+
+
+        return false;
+    }
+
     @ACommand(names = "list")
     public boolean listCommand(@Injected(true) CommandSender sender) {
         if (!(sender instanceof Player)) return true;
@@ -208,15 +240,16 @@ public class PowerUpCommand implements CommandClass {
 
 
         powerUpManager.getPowerUps().forEach(powerUp -> {
-            TextComponent tc = new TextComponent(Utils.color(powerUp.getName() + " &8| &7(" + powerUp.getID() + ")"));
+            TextComponent tc = new TextComponent(Utils.color(powerUp.getName() + " &8| &7(" + (powerUp.isEnabled() ? "&a" + powerUp.getID() : "&c" + powerUp.getID()) + "&7)"));
 
             StringBuilder hover = new StringBuilder();
 
             hover.append("\n").append(Utils.color("&bHologram"));
             powerUp.getHologram().forEach(s -> hover.append("\n").append(Utils.color(s)));
             hover.append("\n\n").append(Utils.color("&bInfo"));
+            hover.append("\n").append(Utils.color("&eStatus " + powerUp.isEnabled()));
             hover.append("\n").append(Utils.color("&eChance " + powerUp.getChance()));
-            hover.append("\n").append(Utils.color("&eType " + /*todo*/ "Add methods"));
+            hover.append("\n").append(Utils.color("&eType " + "Add methods"));
             hover.append("\n").append(Utils.color("&eChance " + powerUp.getChance()));
             hover.append("\n").append(Utils.color("&eItem " + powerUp.getItem().getType()));
             hover.append("\n\n").append(Utils.color("&bActions"));

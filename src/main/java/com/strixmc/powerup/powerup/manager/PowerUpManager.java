@@ -13,9 +13,9 @@ public interface PowerUpManager {
 
     void savePowerUps();
 
-    void spawnPowerUp(@NotNull String powerUp,@NotNull String playerName);
+    void spawnPowerUp(@NotNull String powerUp, @NotNull String playerName);
 
-    void spawnPowerUp(@NotNull String powerUp,@NotNull Player player);
+    void spawnPowerUp(@NotNull String powerUp, @NotNull Player player);
 
     void spawnPowerUp(@NotNull String powerUp, @NotNull Location location);
 

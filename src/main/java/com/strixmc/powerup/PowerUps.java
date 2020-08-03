@@ -8,7 +8,9 @@ import com.strixmc.powerup.powerup.manager.PowerUpManager;
 import com.strixmc.powerup.utilities.ConfigUpdater;
 import com.strixmc.powerup.utilities.lang.LangUtility;
 import lombok.Getter;
-import me.fixeddev.ebcm.*;
+import me.fixeddev.ebcm.Authorizer;
+import me.fixeddev.ebcm.CommandManager;
+import me.fixeddev.ebcm.SimpleCommandManager;
 import me.fixeddev.ebcm.bukkit.BukkitAuthorizer;
 import me.fixeddev.ebcm.bukkit.BukkitCommandManager;
 import me.fixeddev.ebcm.bukkit.BukkitMessager;
@@ -20,26 +22,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class PowerUps extends JavaPlugin {
 
-    @Getter
-    private FileConfiguration lang;
 
-    @Inject
-    private PowerUpCommand powerUpCommand;
-    @Inject
-    private LangUtility langUtility;
-    @Inject
-    private PowerUpManager powerUpManager;
+    @Getter private FileConfiguration lang;
+
+    @Inject private LangUtility langUtility;
+    @Inject private PowerUpManager powerUpManager;
+
+    @Inject private PowerUpCommand powerUpCommand;
 
     @Override
     public void onEnable() {
@@ -49,20 +46,16 @@ public class PowerUps extends JavaPlugin {
 
         initInstances();
 
-        registerListeners();
-        registerCommands();
-
     }
-
 
     @Override
     public void onDisable() {
         powerUpManager.savePowerUps();
     }
 
-
     private void initInstances() {
 
+        // Check if server has dependency.
         if (!getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
             getLogger().severe("This plugins does need HolographicDisplays as dependency to work.");
             getServer().getPluginManager().disablePlugin(this);
@@ -73,33 +66,20 @@ public class PowerUps extends JavaPlugin {
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        powerUpManager.loadPowerUps();
-        langUtility.updateMessages();
-
-    }
-
-    private void registerListeners() {
-
-        PluginManager pm = getServer().getPluginManager();
-
-    }
-
-    private void registerCommands() {
-
         ParametricCommandBuilder builder = new ReflectionParametricCommandBuilder();
 
         Authorizer authorizer = new BukkitAuthorizer();
         ParameterProviderRegistry providerRegistry = ParameterProviderRegistry.createRegistry();
-        Messager messager = new BukkitMessager();
-        CommandManager commandManager = new SimpleCommandManager(authorizer, messager, providerRegistry);
+        BukkitMessager bukkitMessager = new BukkitMessager();
+        CommandManager commandManager = new SimpleCommandManager(authorizer, bukkitMessager, providerRegistry);
         providerRegistry.installModule(new BukkitModule());
 
         BukkitCommandManager bukkitCommandManager = new BukkitCommandManager(commandManager, this.getName());
 
-        List<Command> commands = new ArrayList<>();
-        commands.addAll(builder.fromClass(powerUpCommand));
+        bukkitCommandManager.registerCommands(builder.fromClass(powerUpCommand));
 
-        bukkitCommandManager.registerCommands(commands);
+        powerUpManager.loadPowerUps();
+        langUtility.updateMessages();
 
     }
 
@@ -117,6 +97,7 @@ public class PowerUps extends JavaPlugin {
     }
 
     private void createLang() {
+
         File langFile = new File(getDataFolder(), "lang.yml");
         this.lang = YamlConfiguration.loadConfiguration(langFile);
 

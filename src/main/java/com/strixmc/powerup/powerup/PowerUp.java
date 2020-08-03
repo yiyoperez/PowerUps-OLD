@@ -1,6 +1,5 @@
 package com.strixmc.powerup.powerup;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,11 +11,11 @@ public interface PowerUp {
 
     String getName();
 
+    void setName(@NotNull String name);
+
     boolean isEnabled();
 
     void setEnabled(@NotNull boolean value);
-
-    void setName(@NotNull String name);
 
     double getChance();
 

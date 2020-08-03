@@ -1,5 +1,6 @@
 package com.strixmc.powerup.powerup.manager;
 
+import com.cryptomorin.xseries.messages.Titles;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
@@ -9,7 +10,6 @@ import com.strixmc.powerup.PowerUps;
 import com.strixmc.powerup.powerup.PowerUp;
 import com.strixmc.powerup.powerup.PowerUpBuilder;
 import com.strixmc.powerup.utilities.ConfigUpdater;
-import com.strixmc.powerup.utilities.Titles;
 import com.strixmc.powerup.utilities.Utils;
 import lombok.Getter;
 import org.bukkit.*;
@@ -42,6 +42,7 @@ public class PowerUpManagerProvider implements PowerUpManager {
             for (String id : plugin.getConfig().getConfigurationSection("PowerUps").getKeys(false)) {
 
                 String name = plugin.getConfig().getString("PowerUps." + id + ".Display-Name");
+                boolean status = plugin.getConfig().getBoolean("PowerUps." + id + ".Enabled");
                 double chance = plugin.getConfig().getDouble("PowerUps." + id + ".Chance");
                 List<String> hologram = plugin.getConfig().getStringList("PowerUps." + id + ".Hologram");
                 List<String> actions = plugin.getConfig().getStringList("PowerUps." + id + ".Actions");
@@ -50,6 +51,7 @@ public class PowerUpManagerProvider implements PowerUpManager {
                 String material = plugin.getConfig().getString("PowerUps." + id + ".Material");
                 int data = plugin.getConfig().getInt("PowerUps." + id + ".Data");
                 powerUp.setItem(material, (short) data);
+                powerUp.setEnabled(status);
 
                 add(powerUp);
             }
@@ -63,6 +65,7 @@ public class PowerUpManagerProvider implements PowerUpManager {
             this.powerUps.forEach(powerUp -> {
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Display-Name", powerUp.getName());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Chance", powerUp.getChance());
+                plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Enabled", powerUp.isEnabled());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Hologram", powerUp.getHologram());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Actions", powerUp.getActions());
                 plugin.getConfig().set("PowerUps." + powerUp.getID() + ".Material", powerUp.getItem().getType().toString());

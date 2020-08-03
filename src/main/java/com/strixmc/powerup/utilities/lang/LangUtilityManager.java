@@ -2,6 +2,7 @@ package com.strixmc.powerup.utilities.lang;
 
 import com.google.inject.Inject;
 import com.strixmc.powerup.PowerUps;
+import com.strixmc.powerup.utilities.Utils;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,20 +33,20 @@ public class LangUtilityManager implements LangUtility {
 
     @Override
     public void updateMessages() {
-        this.noPermission = plugin.getLang().getString("NoPermission");
+        this.noPermission = Utils.color(plugin.getLang().getString("NoPermission"));
 
-        this.help = plugin.getLang().getStringList("Help");
-        this.availablePowerUp = plugin.getLang().getString("Available-Powerups");
-        this.noAvailablePowerUp = plugin.getLang().getString("No-Available");
-        this.alreadyExist = plugin.getLang().getString("Already-Exist");
-        this.noExist = plugin.getLang().getString("No-Exist");
-        this.created = plugin.getLang().getString("Created");
-        this.createHelp = plugin.getLang().getString("Help.Create");
-        this.deleted = plugin.getLang().getString("Deleted");
-        this.enabled = plugin.getLang().getString("Enabled");
-        this.alreadyEnabled = plugin.getLang().getString("Already-Enabled");
-        this.disabled = plugin.getLang().getString("Disabled");
-        this.alreadyDisabled = plugin.getLang().getString("Already-Disabled");
+        this.help = Utils.color(plugin.getLang().getStringList("Help.Plugin"));
+        this.availablePowerUp = Utils.color(plugin.getLang().getString("Available-Powerups"));
+        this.noAvailablePowerUp = Utils.color(plugin.getLang().getString("No-Available"));
+        this.alreadyExist = Utils.color(plugin.getLang().getString("Already-Exist"));
+        this.noExist = Utils.color(plugin.getLang().getString("No-Exist"));
+        this.created = Utils.color(plugin.getLang().getString("Created"));
+        this.createHelp = Utils.color(plugin.getLang().getString("Help.Create"));
+        this.deleted = Utils.color(plugin.getLang().getString("Deleted"));
+        this.enabled = Utils.color(plugin.getLang().getString("Enabled"));
+        this.alreadyEnabled = Utils.color(plugin.getLang().getString("Already-Enabled"));
+        this.disabled = Utils.color(plugin.getLang().getString("Disabled"));
+        this.alreadyDisabled = Utils.color(plugin.getLang().getString("Already-Disabled"));
     }
 
     @Override
@@ -74,7 +75,7 @@ public class LangUtilityManager implements LangUtility {
     }
 
     @Override
-    public String getCreated(@NotNull String name, @NotNull String id)  {
+    public String getCreated(@NotNull String name, @NotNull String id) {
         return this.created.replace("%powerup_name%", name).replace("%powerup_id%", id);
     }
 
@@ -87,4 +88,5 @@ public class LangUtilityManager implements LangUtility {
     public String getNoExist(@NotNull String name) {
         return this.noExist.replace("%powerup_id%", name);
     }
+
 }

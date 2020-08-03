@@ -2,12 +2,16 @@ package com.strixmc.powerup.utilities.lang;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public interface LangUtility {
 
     String getNoPermission();
 
 
     void updateMessages();
+
+    List<String> getHelp();
 
     String getNoAvailablePowerUp();
 

@@ -32,6 +32,10 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -48,13 +52,8 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>4.0</version>
-        </dependency>
-
-        <!--EBCM-->
-        <dependency>
-            <groupId>me.fixeddev</groupId>
-            <artifactId>ebcm-bukkit</artifactId>
-            <version>1.10.0-SNAPSHOT</version>
+            <classifier>no_aop</classifier>
+            <scope>compile</scope>
         </dependency>
 
         <!--HolographicDisplays-->
@@ -65,11 +64,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--Javax Annotations-->
+        <!--XSeries-->
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>6.2.0</version>
         </dependency>
 
         <!--Lombok-->
@@ -86,6 +85,12 @@
             <version>16.0.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.FixedDev</groupId>
+            <artifactId>EBCM</artifactId>
+            <version>3a7cb69d68</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>
