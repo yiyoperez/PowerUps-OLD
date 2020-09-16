@@ -1,52 +1,76 @@
 package com.strixmc.powerup.utilities.lang;
 
 import com.google.inject.Inject;
-import com.strixmc.powerup.PowerUps;
+import com.google.inject.Singleton;
+import com.strixmc.powerup.PowerUpsPlugin;
+import com.strixmc.powerup.utilities.ConfigUpdater;
 import com.strixmc.powerup.utilities.Utils;
 import lombok.Getter;
+import lombok.SneakyThrows;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
-@Getter
+@Singleton
 public class LangUtilityManager implements LangUtility {
 
-    @Inject
-    private PowerUps plugin;
+    @Inject private PowerUpsPlugin main;
+    @Getter private FileConfiguration lang;
 
-    private List<String> help;
-    private String noPermission;
-    private String noAvailablePowerUp;
-    private String availablePowerUp;
-    private String alreadyExist;
-    private String alreadyEnabled;
-    private String enabled;
-    private String alreadyDisabled;
-    private String disabled;
-    private String itemUpdate;
-    private String nameUpdate;
-    private String chanceUpdate;
-    private String noExist;
-    private String created;
-    private String createHelp;
-    private String deleted;
+    @Getter private List<String> help;
+    @Getter private String noPermission;
+    @Getter private String noAvailablePowerUp;
+    @Getter private String availablePowerUp;
+    @Getter private String alreadyExist;
+    @Getter private String alreadyEnabled;
+    @Getter private String enabled;
+    @Getter private String alreadyDisabled;
+    @Getter private String disabled;
+    @Getter private String itemUpdate;
+    @Getter private String nameUpdate;
+    @Getter private String chanceUpdate;
+    @Getter private String noExist;
+    @Getter private String created;
+    @Getter private String createHelp;
+    @Getter private String deleted;
 
     @Override
-    public void updateMessages() {
-        this.noPermission = Utils.color(plugin.getLang().getString("NoPermission"));
+    public void load() {
 
-        this.help = Utils.color(plugin.getLang().getStringList("Help.Plugin"));
-        this.availablePowerUp = Utils.color(plugin.getLang().getString("Available-Powerups"));
-        this.noAvailablePowerUp = Utils.color(plugin.getLang().getString("No-Available"));
-        this.alreadyExist = Utils.color(plugin.getLang().getString("Already-Exist"));
-        this.noExist = Utils.color(plugin.getLang().getString("No-Exist"));
-        this.created = Utils.color(plugin.getLang().getString("Created"));
-        this.createHelp = Utils.color(plugin.getLang().getString("Help.Create"));
-        this.deleted = Utils.color(plugin.getLang().getString("Deleted"));
-        this.enabled = Utils.color(plugin.getLang().getString("Enabled"));
-        this.alreadyEnabled = Utils.color(plugin.getLang().getString("Already-Enabled"));
-        this.disabled = Utils.color(plugin.getLang().getString("Disabled"));
-        this.alreadyDisabled = Utils.color(plugin.getLang().getString("Already-Disabled"));
+        this.noPermission = Utils.color(lang.getString("NoPermission"));
+
+        this.help = Utils.color(lang.getStringList("Help.Plugin"));
+        this.availablePowerUp = Utils.color(lang.getString("Available-Powerups"));
+        this.noAvailablePowerUp = Utils.color(lang.getString("No-Available"));
+        this.alreadyExist = Utils.color(lang.getString("Already-Exist"));
+        this.noExist = Utils.color(lang.getString("No-Exist"));
+        this.created = Utils.color(lang.getString("Created"));
+        this.createHelp = Utils.color(lang.getString("Help.Create"));
+        this.deleted = Utils.color(lang.getString("Deleted"));
+        this.enabled = Utils.color(lang.getString("Enabled"));
+        this.alreadyEnabled = Utils.color(lang.getString("Already-Enabled"));
+        this.disabled = Utils.color(lang.getString("Disabled"));
+        this.alreadyDisabled = Utils.color(lang.getString("Already-Disabled"));
+    }
+
+    @SneakyThrows @Override
+    public void createLang() {
+
+        File langFile = new File(main.getDataFolder(), "lang.yml");
+        this.lang = YamlConfiguration.loadConfiguration(langFile);
+
+        if (!langFile.exists()) {
+            main.saveResource("lang.yml", false);
+        }
+
+        ConfigUpdater.update(main, "lang.yml", langFile, Collections.singletonList("none"));
+
+        lang.load(langFile);
+
     }
 
     @Override

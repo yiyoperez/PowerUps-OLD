@@ -9,17 +9,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@Getter
-@Setter
 public class PowerUpBuilder implements PowerUp {
 
-    private String ID;
-    private String name;
-    private boolean enabled;
-    private double chance;
-    private List<String> hologram;
-    private List<String> actions;
-    private ItemStack item;
+    @Getter private String ID;
+    @Getter @Setter private String name;
+    @Getter @Setter private boolean enabled;
+    @Getter @Setter private double chance;
+    @Getter private List<String> hologram;
+    @Getter private List<String> actions;
+    @Getter @Setter private ItemStack item;
 
     public PowerUpBuilder(String ID, String name, double chance, List<String> hologram, List<String> actions) {
         this.ID = ID;
@@ -31,7 +29,7 @@ public class PowerUpBuilder implements PowerUp {
     }
 
     @Override
-    public boolean setItem(@NotNull String materialName, @NotNull short data) {
+    public boolean setItem(@NotNull String materialName, short data) {
         try {
             this.item = new ItemStack(Material.matchMaterial(materialName), 1, data);
             return true;

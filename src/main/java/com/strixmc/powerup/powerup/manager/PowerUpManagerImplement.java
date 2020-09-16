@@ -6,7 +6,8 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
 import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import com.google.inject.Inject;
-import com.strixmc.powerup.PowerUps;
+import com.google.inject.Singleton;
+import com.strixmc.powerup.PowerUpsPlugin;
 import com.strixmc.powerup.powerup.PowerUp;
 import com.strixmc.powerup.powerup.PowerUpBuilder;
 import com.strixmc.powerup.utilities.ConfigUpdater;
@@ -24,22 +25,24 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+@Singleton
 @Getter
-public class PowerUpManagerProvider implements PowerUpManager {
+public class PowerUpManagerImplement implements PowerUpManager {
 
-    @Inject
-    private PowerUps plugin;
+    @Inject private PowerUpsPlugin plugin;
     private List<PowerUp> powerUps = new ArrayList<>();
     private List<PowerUp> runningHolograms = new ArrayList<>();
 
     @Override
     public void loadPowerUps() {
+        Bukkit.broadcastMessage("loadPowerUps method");
         if (!plugin.getConfig().getConfigurationSection("PowerUps").getKeys(false).isEmpty()) {
             this.powerUps.clear();
             for (String id : plugin.getConfig().getConfigurationSection("PowerUps").getKeys(false)) {
+                Bukkit.broadcastMessage(id);
 
                 String name = plugin.getConfig().getString("PowerUps." + id + ".Display-Name");
                 boolean status = plugin.getConfig().getBoolean("PowerUps." + id + ".Enabled");
@@ -74,7 +77,7 @@ public class PowerUpManagerProvider implements PowerUpManager {
             plugin.saveConfig();
             File configFile = new File(plugin.getDataFolder(), "config.yml");
             try {
-                ConfigUpdater.update(plugin, "config.yml", configFile, Arrays.asList("PowerUps"));
+                ConfigUpdater.update(plugin, "config.yml", configFile, Collections.singletonList("PowerUps"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -115,12 +118,11 @@ public class PowerUpManagerProvider implements PowerUpManager {
 
         itemLine.setTouchHandler(player -> {
             powerUpActions(player, powerUp.getActions(), powerUp);
-            player.sendMessage(powerUp.getID());
             hologram.delete();
         });
 
         itemLine.setPickupHandler(player -> {
-            player.sendMessage(Utils.color(powerUp.getName()));
+            powerUpActions(player, powerUp.getActions(), powerUp);
             hologram.delete();
         });
     }
@@ -128,6 +130,7 @@ public class PowerUpManagerProvider implements PowerUpManager {
     @Override
     public void powerUpActions(@NotNull Player player, @NotNull List<String> actions, @NotNull PowerUp powerUp) {
         actions.forEach(action -> {
+            action = action.replace("%type%", powerUp.getID());
             if (action.startsWith("[COMMAND]")) {
                 action = action.replace("[COMMAND] ", "");
                 action = action.replace("%player_name%", player.getName());

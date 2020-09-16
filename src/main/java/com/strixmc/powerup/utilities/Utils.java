@@ -15,7 +15,7 @@ public class Utils {
         List<String> toReturn = new ArrayList<>();
 
         for (String line : lines) {
-            toReturn.add(ChatColor.translateAlternateColorCodes('&', line));
+            toReturn.add(color(line));
         }
 
         return toReturn;

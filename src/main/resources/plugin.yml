@@ -1,4 +1,4 @@
-main: com.strixmc.powerup.PowerUps
+main: com.strixmc.powerup.PowerUpsPlugin
 version: 1.0.0-BETA
 author: Sliide
 name: PowerUps

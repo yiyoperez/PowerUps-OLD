@@ -15,19 +15,18 @@ public interface PowerUp {
 
     boolean isEnabled();
 
-    void setEnabled(@NotNull boolean value);
+    void setEnabled(boolean value);
 
     double getChance();
 
-    void setChance(@NotNull double chance);
+    void setChance(double chance);
 
     List<String> getHologram();
-
 
     List<String> getActions();
 
     ItemStack getItem();
 
-    boolean setItem(@NotNull String material, @NotNull short data);
+    boolean setItem(@NotNull String material, short data);
 
 }

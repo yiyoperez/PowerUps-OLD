@@ -7,19 +7,47 @@
     <groupId>org.example</groupId>
     <artifactId>PowerUps</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
-
 
     <repositories>
         <!--Spigot-->
@@ -32,6 +60,7 @@
             <id>codemc-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
+        <!--JITPACK (EBCM)-->
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -43,7 +72,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8.3-R0.1-SNAPSHOT</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -69,13 +98,14 @@
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
             <version>6.2.0</version>
+            <scope>compile</scope>
         </dependency>
 
         <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>LATEST</version>
             <scope>provided</scope>
         </dependency>
 
@@ -83,12 +113,14 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>16.0.2</version>
+            <scope>provided</scope>
         </dependency>
 
+        <!--EBCM-->
         <dependency>
-            <groupId>com.github.FixedDev</groupId>
-            <artifactId>EBCM</artifactId>
-            <version>3a7cb69d68</version>
+            <groupId>com.github.FixedDev.EBCM</groupId>
+            <artifactId>ebcm-bukkit</artifactId>
+            <version>2.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

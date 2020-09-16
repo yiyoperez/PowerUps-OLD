@@ -1,7 +1,7 @@
 package com.strixmc.powerup.commands;
 
 import com.google.inject.Inject;
-import com.strixmc.powerup.PowerUps;
+import com.strixmc.powerup.PowerUpsPlugin;
 import com.strixmc.powerup.powerup.PowerUp;
 import com.strixmc.powerup.powerup.PowerUpBuilder;
 import com.strixmc.powerup.powerup.manager.PowerUpManager;
@@ -9,10 +9,7 @@ import com.strixmc.powerup.utilities.ConfigUpdater;
 import com.strixmc.powerup.utilities.Utils;
 import com.strixmc.powerup.utilities.lang.LangUtility;
 import me.fixeddev.ebcm.parametric.CommandClass;
-import me.fixeddev.ebcm.parametric.annotation.ACommand;
-import me.fixeddev.ebcm.parametric.annotation.Injected;
-import me.fixeddev.ebcm.parametric.annotation.Optional;
-import me.fixeddev.ebcm.parametric.annotation.Usage;
+import me.fixeddev.ebcm.parametric.annotation.*;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -23,11 +20,12 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 @ACommand(names = {"pu", "pup", "powerups", "powerups"})
 public class PowerUpCommand implements CommandClass {
 
-    @Inject private PowerUps plugin;
+    @Inject private PowerUpsPlugin plugin;
     @Inject private PowerUpManager powerUpManager;
     @Inject private LangUtility lang;
 
@@ -49,7 +47,7 @@ public class PowerUpCommand implements CommandClass {
 
     @ACommand(names = "create")
     @Usage(usage = "/<command> create <name>")
-    public boolean createCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
+    public boolean createCommand(@Injected(true) CommandSender sender, @Optional String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
@@ -67,7 +65,7 @@ public class PowerUpCommand implements CommandClass {
             return true;
         }
 
-        if (!name.equals("Empty !")) {
+        if (name != null) {
             PowerUp powerUp = new PowerUpBuilder(ID, Utils.color(name), 100.0, Arrays.asList("&eDefault PowerUp", "&eHologram text."), Arrays.asList("[MESSAGE] Hey, this action works!", "[SOUND] ARROW_HIT;1.0;1.0"));
             powerUp.setItem("STONE", (short) 0);
             powerUpManager.add(powerUp);
@@ -83,7 +81,7 @@ public class PowerUpCommand implements CommandClass {
 
     @ACommand(names = "delete")
     @Usage(usage = "/<command> delete <name>")
-    public boolean deleteCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
+    public boolean deleteCommand(@Injected(true) CommandSender sender, @Optional String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
@@ -94,7 +92,7 @@ public class PowerUpCommand implements CommandClass {
             return true;
         }
 
-        if (!name.equals("Empty !")) {
+        if (name != null) {
 
             String ID = ChatColor.stripColor(Utils.color(name)).toUpperCase();
 
@@ -151,7 +149,7 @@ public class PowerUpCommand implements CommandClass {
 
     @ACommand(names = "disable")
     @Usage(usage = "/<command> disable <name>")
-    public boolean disableCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
+    public boolean disableCommand(@Injected(true) CommandSender sender, @Optional String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
@@ -162,7 +160,7 @@ public class PowerUpCommand implements CommandClass {
             return true;
         }
 
-        if (!name.equals("Empty !")) {
+        if (name != null) {
 
             String ID = ChatColor.stripColor(Utils.color(name)).toUpperCase();
 
@@ -189,8 +187,7 @@ public class PowerUpCommand implements CommandClass {
     }
 
     @ACommand(names = "spawn")
-    @Usage(usage = "/<command> spawn <name>")
-    public boolean spawnCommand(@Injected(true) CommandSender sender, @Optional("Empty !") String name) {
+    public boolean spawnCommand(@Injected(true) CommandSender sender, @Named("") @Optional String name) {
         if (!(sender instanceof Player)) return true;
 
         Player p = (Player) sender;
@@ -201,7 +198,7 @@ public class PowerUpCommand implements CommandClass {
             return true;
         }
 
-        if (!name.equals("Empty !")) {
+        if (name != null) {
 
             String ID = ChatColor.stripColor(Utils.color(name)).toUpperCase();
 
@@ -211,6 +208,8 @@ public class PowerUpCommand implements CommandClass {
             }
 
             PowerUp powerUp = powerUpManager.getPowerUp(name);
+
+            powerUpManager.spawnPowerUp(powerUp, p.getLocation());
 
             //todo
             return true;
@@ -274,13 +273,17 @@ public class PowerUpCommand implements CommandClass {
             return true;
         }
 
+        plugin.reloadConfig();
+        plugin.saveConfig();
+
         File configFile = new File(plugin.getDataFolder(), "config.yml");
         try {
-            ConfigUpdater.update(plugin, "config.yml", configFile, Arrays.asList("PowerUps"));
+            ConfigUpdater.update(plugin, "config.yml", configFile, Collections.singletonList("PowerUps"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         plugin.reloadConfig();
+
         powerUpManager.loadPowerUps();
 
         p.sendMessage(Utils.color("&aConfig and powerups have been reloaded!"));

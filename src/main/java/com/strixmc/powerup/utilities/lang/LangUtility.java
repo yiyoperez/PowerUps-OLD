@@ -1,15 +1,19 @@
 package com.strixmc.powerup.utilities.lang;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public interface LangUtility {
 
+    void load();
+
+    void createLang();
+
+    FileConfiguration getLang();
+
     String getNoPermission();
-
-
-    void updateMessages();
 
     List<String> getHelp();
 
