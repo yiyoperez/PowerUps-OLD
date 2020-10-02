@@ -7,30 +7,30 @@
 #         \  /         Developed by Sliide_
 #       +==""==+
 
-
 Denied-Worlds:
   - thisworld
   - andthis_world
 
 # Check more about powerups settings at the wiki https://github.com/yiyoperez/PowerUps/wiki
 
-PowerUps:
-  Example:
-    Enabled: true
-    Method: CLICK
-    Material: SUGAR_CANE
-    Data: 0
-    Display-Name: '&bSpeed I &7(1 Minute)'
-    Chance: 100.0
-    Hologram:
-      - '&6&lExample PowerUp'
-      - '&bGives you Speed effect for 1 minute.'
-    Actions:
-      - '[MESSAGE] &aYou have received a %type% PowerUp!'
-      - '[TITLE] &aYou have received a %type% PowerUp!'
-      - '[FULLTITLE] &aYou have received; a %type% PowerUp!'
-      - '[SUBTITLE] &aYou have received a %type% PowerUp!'
-      - '[SOUND] LEVEL_UP;0.5;1.0'
-      - '[PARTICLE] MOBSPAWNER_FLAMES'
-      - '[PARTICLE] FLAME'
-      - '[EFFECT] SPEED,60,1'
+# NO LONGER NEEDED | DEV BUILD
+#PowerUps:
+#  Example:
+#    Enabled: true
+#    Method: CLICK
+#    Material: SUGAR_CANE
+#    Data: 0
+#    Display-Name: '&bSpeed I &7(1 Minute)'
+#    Chance: 100.0
+#    Hologram:
+#      - '&6&lExample PowerUp'
+#      - '&bGives you Speed effect for 1 minute.'
+#    Actions:
+#      - '[MESSAGE] &aYou have received a %type% PowerUp!'
+#      - '[TITLE] &aYou have received a %type% PowerUp!'
+#      - '[FULLTITLE] &aYou have received; a %type% PowerUp!'
+#      - '[SUBTITLE] &aYou have received a %type% PowerUp!'
+#      - '[SOUND] LEVEL_UP;0.5;1.0'
+#      - '[PARTICLE] MOBSPAWNER_FLAMES'
+#      - '[PARTICLE] FLAME'
+#      - '[EFFECT] SPEED,60,1'

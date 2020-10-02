@@ -7,10 +7,10 @@
 #         \  /         Developed by Sliide_
 #       +==""==+
 
-NoPermission: '&cYou have no permission to perform that!'
+NO_PERMISSION: '&cYou have no permission to perform that!'
 
-Help:
-  Plugin:
+HELP:
+  MAIN:
     - '&7&m----------------------------------------'
     - ' &e/<command> create <Name> &fCreate a new powerup.'
     - ' &e/<command> delete <ID> &fDelete powerup.'
@@ -22,22 +22,27 @@ Help:
     - ' &e/<command> setchance <Chance> &fUpdate current chance.'
     - ' &e/<command> spawn <PowerUp> [Player] &fSpawn powerup on player or looking location.'
     - '&7&m----------------------------------------'
-  Create: '&bYou can also set the name with color codes and add spaces using "_"'
+  USAGES:
+    CREATE: '&cCorrect usage: /<command> create <NAME>'
+    DELETE: '&cCorrect usage: /<command> delete <NAME|ID>'
+    ENABLE: '&cCorrect usage: /<command> enable <NAME|ID>'
+    DISABLE: '&cCorrect usage: /<command> disable <NAME|ID>'
 
-Usage:
-  Delete: '&cCorrect usage: /<command> delete <PowerUp ID>'
-  Create: '&cCorrect usage: /<command> create <Name>'
+# List Messages
+NO_AVAILABLE: '&cThere are no available powerups.'
+AVAILABLE_LIST: '&aAvailable powerup list. &7Hover to view more info.'
 
-No-Available: '&cThere are no available powerups.'
-Available-Powerups: '&aAvailable powerup list. &7Hover to view more info.'
-No-Exist: '&cThe powerup %powerup_id% does not exist.'
-Already-Exist: '&cThe powerup %powerup_id% already exist.'
-Already-Enabled: '&eThe powerup %powerup_id% is already &aEnabled&e.'
-Enabled: '&eThe powerup %powerup_id% has been &aEnabled&e.'
-Already-Disabled: '&eThe powerup %powerup_id% is already &cDisabled&e.'
-Disabled: '&eThe powerup %powerup_id% has been &cDisabled&e.'
-Created: '&aSuccessfully created powerup %powerup_name% &7(%powerup_id%)&a.'
-Deleted: '&aSuccessfully deleted powerup %powerup_id%.'
-Item-Update: '&aSuccessfully updated powerup %powerup_id% &aitem to %item%.'
-Name-Update: '&aSuccessfully updated powerup %powerup_id% &adisplayname to %powerup_name%'
-Chance-Update: '&aSuccessfully updated powerup %powerup_name% &7(%powerup_id%)&a chance to %chance%.'
+# Main command Messages
+CREATED: '&aSuccessfully created powerup $powerup_name &7($powerup_id)&a.'
+DELETED: '&aSuccessfully deleted powerup $powerup_id$.'
+ENABLED: '&eThe powerup $powerup_id has been &aEnabled&e.'
+DISABLED: '&eThe powerup $powerup_id has been &cDisabled&e.'
+
+NO_EXIST: '&cThe powerup $powerup_id does not exist.'
+ALREADY_EXIST: '&cThe powerup $powerup_id already exist.'
+ALREADY_ENABLED: '&eThe powerup $powerup_id is already &aEnabled&e.'
+ALREADY_DISABLED: '&eThe powerup $powerup_id is already &cDisabled&e.'
+
+Item-Update: '&aSuccessfully updated powerup $powerup_id &aitem to $item.'
+Name-Update: '&aSuccessfully updated powerup $powerup_id &adisplayname to $powerup_name$'
+Chance-Update: '&aSuccessfully updated powerup $powerup_name &7($powerup_id)&a chance to $chance$.'

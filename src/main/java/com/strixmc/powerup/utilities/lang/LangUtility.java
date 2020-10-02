@@ -1,41 +1,41 @@
 package com.strixmc.powerup.utilities.lang;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public interface LangUtility {
 
-    void load();
+  void load();
+  void createLang();
 
-    void createLang();
+  String getNoPermission();
 
-    FileConfiguration getLang();
+  List<String> getHelp();
 
-    String getNoPermission();
+  String getCreateUsage();
+  String getDeleteUsage();
+  String getEnableUsage();
+  String getDisableUsage();
 
-    List<String> getHelp();
 
-    String getNoAvailablePowerUp();
+  String getNoAvailablePowerUp();
 
-    String getAvailablePowerUp();
+  String getAvailablePowerUp();
 
-    String getAlreadyExist(@NotNull String name);
+  String getAlreadyExist(@NotNull String name);
 
-    String getNoExist(@NotNull String name);
+  String getNoExist(@NotNull String name);
 
-    String getAlreadyEnabled(@NotNull String name);
+  String getAlreadyEnabled(@NotNull String name);
 
-    String getEnabled(@NotNull String name);
+  String getEnabled(@NotNull String name);
 
-    String getAlreadyDisabled(@NotNull String name);
+  String getAlreadyDisabled(@NotNull String name);
 
-    String getDisabled(@NotNull String name);
+  String getDisabled(@NotNull String name);
 
-    String getCreated(@NotNull String name, @NotNull String id);
+  String getCreated(@NotNull String name, @NotNull String id);
 
-    String getCreateHelp();
-
-    String getDeleted(@NotNull String name);
+  String getDeleted(@NotNull String name);
 }

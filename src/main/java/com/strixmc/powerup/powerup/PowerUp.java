@@ -7,26 +7,32 @@ import java.util.List;
 
 public interface PowerUp {
 
-    String getID();
+  String getID();
 
-    String getName();
+  String getMaterial();
+  void setMaterial(String material);
 
-    void setName(@NotNull String name);
+  short getData();
+  void setData(short data);
 
-    boolean isEnabled();
+  String getName();
 
-    void setEnabled(boolean value);
+  void setName(@NotNull String name);
 
-    double getChance();
+  boolean isEnabled();
 
-    void setChance(double chance);
+  void setEnabled(boolean value);
 
-    List<String> getHologram();
+  double getChance();
 
-    List<String> getActions();
+  void setChance(double chance);
 
-    ItemStack getItem();
+  List<String> getHologram();
 
-    boolean setItem(@NotNull String material, short data);
+  List<String> getActions();
+
+  ItemStack getItem();
+
+  void setItem(ItemStack item);
 
 }
