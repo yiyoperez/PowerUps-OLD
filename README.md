@@ -7,12 +7,10 @@ https://github.com/yiyoperez/PowerUps/wiki
 ### TO-DO
 - [ ] Finish Command.
 - [ ] Spawn Methods.
-- [ ] Add lang.
-- [ ] Add extra command setting.
 - [ ] Your suggestions.
 
 ### Built using:
-- [EBCM](https://github.com/FixedDev/EBCM) (Command manager by FixedDev)
+- [CommandFlow](https://github.com/unnamed/CommandFlow) (Command manager by Unnamed Team)
 - [XSeries](https://github.com/CryptoMorin/XSeries) (Titles, ActionBar)
 - [ConfigUpdater](https://www.spigotmc.org/threads/configupdater-keep-comments-and-values.398466/) (Configuration updater)
 

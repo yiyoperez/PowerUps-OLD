@@ -19,7 +19,7 @@ public class PowerUpBuilder implements PowerUp {
   @Getter @Setter private double chance;
   @Getter private List<String> hologram;
   @Getter private List<String> actions;
-  @Setter private ItemStack item;
+  private ItemStack item;
 
   public PowerUpBuilder(String ID, String name, double chance, List<String> hologram, List<String> actions, boolean enabled, String material, short data) {
     this.ID = ID;
@@ -32,7 +32,7 @@ public class PowerUpBuilder implements PowerUp {
     this.data = data;
   }
 
-  public PowerUpBuilder(String ID, String name, String material, short data, double chance, List<String> hologram, List<String> actions, ItemStack item) {
+  public PowerUpBuilder(String ID, String name, String material, short data, double chance, List<String> hologram, List<String> actions) {
     this(ID, name, chance, hologram, actions, false, material, data);
   }
 

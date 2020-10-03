@@ -24,9 +24,10 @@ HELP:
     - '&7&m----------------------------------------'
   USAGES:
     CREATE: '&cCorrect usage: /<command> create <NAME>'
-    DELETE: '&cCorrect usage: /<command> delete <NAME|ID>'
-    ENABLE: '&cCorrect usage: /<command> enable <NAME|ID>'
-    DISABLE: '&cCorrect usage: /<command> disable <NAME|ID>'
+    DELETE: '&cCorrect usage: /<command> delete <ID>'
+    ENABLE: '&cCorrect usage: /<command> enable <ID>'
+    DISABLE: '&cCorrect usage: /<command> disable <ID>'
+    SPAWN: '&cCorrect usage: /<command> spawn <ID>'
 
 # List Messages
 NO_AVAILABLE: '&cThere are no available powerups.'

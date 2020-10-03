@@ -1,5 +1,8 @@
 package com.strixmc.powerup.powerup;
 
+import com.cryptomorin.xseries.XPotion;
+import com.cryptomorin.xseries.XSound;
+import com.cryptomorin.xseries.messages.ActionBar;
 import com.cryptomorin.xseries.messages.Titles;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -7,108 +10,117 @@ import com.gmail.filoghost.holographicdisplays.api.VisibilityManager;
 import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.strixmc.powerup.PowerUpsPlugin;
 import com.strixmc.powerup.utilities.Utils;
+import com.strixmc.universal.cache.CacheProvider;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Singleton
 public class PowerUtilities {
 
   @Inject private Utils utils;
+  @Inject @Named("ActiveHologramsCache") private CacheProvider<String, Hologram> activeHologramsCache;
+
+  //TODO IMPLEMENT XSERIES
 
   public void powerUpActions(@NotNull Player player, @NotNull List<String> actions, @NotNull PowerUp powerUp) {
     actions.forEach(action -> {
-      action = action.replace("%type%", powerUp.getID());
-      if (action.startsWith("[COMMAND]")) {
-        action = action.replace("[COMMAND] ", "");
-        action = action.replace("%player_name%", player.getName());
-        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-        Bukkit.dispatchCommand(console, action);
+
+      final Pattern pattern = Pattern.compile("(?<=\\[).+?(?=\\])");
+      final Matcher matcher = pattern.matcher(action);
+      String actionType = null;
+
+      while (matcher.find()) {
+        actionType = matcher.group();
       }
 
-      if (action.startsWith("[MESSAGE]")) {
-        action = action.replace("[MESSAGE] ", "");
-        action = action.replace("%player_name%", player.getName());
-
-        player.sendMessage(utils.translate(action));
-      }
-
-      if (action.startsWith("[TITLE]")) {
-        action = action.replace("[TITLE] ", "");
-        action = action.replace("%player_name%", player.getName());
-
-        Titles.sendTitle(player, utils.translate(action), "");
-      }
-
-      if (action.startsWith("[SUBTITLE]")) {
-        action = action.replace("[SUBTITLE] ", "");
-        action = action.replace("%player_name%", player.getName());
-
-        Titles.sendTitle(player, "", utils.translate(action));
-      }
-
-      if (action.startsWith("[FULLTITLE]")) {
-        action = action.replace("[FULLTITLE] ", "");
-        action = action.replace("%player_name%", player.getName());
-
-        Titles.sendTitle(player, utils.translate(action.split(";")[0]), utils.translate(action.split(";")[1]));
-      }
-
-      if (action.startsWith("[SOUND]")) {
-        action = action.replace("[SOUND] ", "");
-
-        try {
-          Sound sound = Sound.valueOf(action.split(";")[0]);
-          float volume = Float.parseFloat(action.split(";")[1]);
-          float pitch = Float.parseFloat(action.split(";")[2]);
-
-          player.playSound(player.getEyeLocation(), sound, volume, pitch);
-        } catch (IllegalArgumentException e) {
-          for (int i = 0; i < 3; i++) {
-            Bukkit.getLogger().warning(powerUp.getID() + " have a wrong named sound (\"" + action.split(";")[0] + "\")");
-          }
+      if (actionType == null) return;
+      action = action.replace("$id", powerUp.getID()).replace("$name", powerUp.getName()).replace("$player", player.getName()).replaceFirst("(!?)" + Pattern.quote("[" + actionType + "]"), "").trim();
+      //Bukkit.getLogger().info("ACTION " + action);
+      //Bukkit.getLogger().info("ACTION TYPE " + actionType);
+      switch (actionType.toUpperCase()) {
+        case "COMMAND": {
+          ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+          Bukkit.dispatchCommand(console, action);
+          break;
         }
-
-      }
-
-      if (action.startsWith("[PARTICLE]")) {
-        action = action.replace("[PARTICLE] ", "");
-
-        try {
-          Effect effect = Effect.valueOf(action.split(";")[0]);
-
-          player.playEffect(player.getLocation(), effect, null);
-        } catch (IllegalArgumentException e) {
-          for (int i = 0; i < 3; i++) {
-            Bukkit.getLogger().warning(powerUp.getID() + " have a wrong named particle (\"" + action.split(";")[0] + "\")");
-          }
+        case "MESSAGE": {
+          player.sendMessage(utils.translate(action));
+          break;
         }
+        case "TITLE": {
+          Titles.sendTitle(player, utils.translate(action), "");
+          break;
+        }
+        case "ACTIONBAR": {
+          ActionBar.sendActionBar(player, utils.translate(action));
+          break;
+        }
+        case "SUBTITLE": {
+          Titles.sendTitle(player, "", utils.translate(action));
+          break;
+        }
+        case "FULLTITLE": {
+          Titles.sendTitle(player, utils.translate(action.split(";")[0]), utils.translate(action.split(";")[1]));
+          break;
+        }
+        case "SOUND": {
+          try {
+            Sound sound = Sound.valueOf(action.split(";")[0]);
+            float volume = Float.parseFloat(action.split(";")[1]);
+            float pitch = Float.parseFloat(action.split(";")[2]);
 
-      }
+            XSound xSound = XSound.matchXSound(sound);
 
-      if (action.startsWith("[EFFECT]")) {
-        action = action.replace("[EFFECT] ", "");
-
-        try {
-          PotionEffectType effectType = PotionEffectType.getByName(action.split(",")[0]);
-          int duration = Integer.parseInt(action.split(",")[1]);
-          int amplifier = Integer.parseInt(action.split(",")[2]);
-
-          player.addPotionEffect(new PotionEffect(effectType, duration, amplifier), true);
-        } catch (IllegalArgumentException e) {
-          for (int i = 0; i < 3; i++) {
-            Bukkit.getLogger().warning(powerUp.getID() + " have a wrong named effect (\"" + action.split(";")[0] + "\")");
+            if (xSound.isSupported()) {
+              xSound.play(player.getEyeLocation(), volume, pitch);
+            }
+          } catch (IllegalArgumentException e) {
+            for (int i = 0; i < 3; i++) {
+              Bukkit.getLogger().warning(powerUp.getID() + " have a wrong named sound (\"" + action.split(";")[0] + "\")");
+            }
           }
+          break;
+        }
+        case "PARTICLE": {
+          try {
+            Effect effect = Effect.valueOf(action.split(";")[0]);
+
+            player.getWorld().playEffect(player.getLocation(), effect, null);
+          } catch (IllegalArgumentException e) {
+            for (int i = 0; i < 3; i++) {
+              Bukkit.getLogger().warning(powerUp.getID() + " have a wrong named particle (\"" + action.split(";")[0] + "\")");
+            }
+          }
+          break;
+        }
+        case "EFFECT": {
+          try {
+            XPotion effect = XPotion.matchXPotion(PotionEffectType.getByName(action.split(";")[0]));
+            int duration = Integer.parseInt(action.split(";")[1]);
+            int amplifier = Integer.parseInt(action.split(";")[2]);
+
+            if (effect.isSupported()) {
+              effect.parsePotion(duration, amplifier).apply(player);
+            }
+          } catch (IllegalArgumentException e) {
+            for (int i = 0; i < 3; i++) {
+              Bukkit.getLogger().warning(powerUp.getID() + " have a wrong named effect (\"" + action.split(";")[0] + "\")");
+            }
+          }
+          break;
         }
       }
     });
@@ -116,27 +128,32 @@ public class PowerUtilities {
 
   public void spawnPowerUp(@NotNull PowerUp powerUp, @NotNull Location location) {
 
-    double i = 0.25 * powerUp.getHologram().size();
+    final double i = 0.25 * powerUp.getHologram().size();
 /*
     for (int j = 0; j < powerUp.getHologram().size(); j++) {
       i = i + 0.25;
     }
 */
-    location.setY(getGroundLocation(location).getY() + 0.67 + i);
+    final double fixedY = getGroundLocation(location).getY() + 0.67 + i;
+    location.setY(fixedY);
     Hologram hologram = HologramsAPI.createHologram(JavaPlugin.getPlugin(PowerUpsPlugin.class), location);
     VisibilityManager visibilityManager = hologram.getVisibilityManager();
     visibilityManager.setVisibleByDefault(false);
     powerUp.getHologram().forEach(text -> hologram.appendTextLine(utils.translate(text)));
     ItemLine itemLine = hologram.appendItemLine(powerUp.getItem());
     visibilityManager.setVisibleByDefault(true);
+    final String savedHologramID = powerUp.getID() + "_x" + location.getBlockX() + "y" + fixedY + "z" + location.getBlockZ();
+    activeHologramsCache.add(savedHologramID, hologram);
 
     itemLine.setTouchHandler(player -> {
       powerUpActions(player, powerUp.getActions(), powerUp);
+      activeHologramsCache.find(savedHologramID).ifPresent(ignored -> activeHologramsCache.remove(savedHologramID));
       hologram.delete();
     });
 
     itemLine.setPickupHandler(player -> {
       powerUpActions(player, powerUp.getActions(), powerUp);
+      activeHologramsCache.find(savedHologramID).ifPresent(ignored -> activeHologramsCache.remove(savedHologramID));
       hologram.delete();
     });
   }

@@ -25,14 +25,22 @@ public class PowerUpCommand implements CommandClass {
   @Inject private PowerUtilities powerUtilities;
   @Inject private Utils utils;
 
+
+  //TODO: Implement CommandContext.
   @Command(names = "")
   public boolean command(@Sender Player p) {
-    lang.getHelp().forEach(p::sendMessage);
+/*
+    lang.getHelp().forEach(s -> {
+      s = s.replace("<command>", context.getCommand().getName());
+      p.sendMessage(s);
+    });
+*/
     return true;
   }
 
   @Command(names = "create")
   public boolean createCommand(@Sender Player p, @OptArg String name) {
+
     if (!p.hasPermission("powerups.command.create")) {
       p.sendMessage(lang.getNoPermission());
       return true;
@@ -167,7 +175,6 @@ public class PowerUpCommand implements CommandClass {
       return true;
     }
 
-
     return false;
   }
 
@@ -185,9 +192,9 @@ public class PowerUpCommand implements CommandClass {
 
     p.sendMessage(lang.getAvailablePowerUp());
     powerUpCacheProvider.get().forEach((id, powerUp) -> {
-      TextComponent tc = new TextComponent(utils.translate(powerUp.getName() + " &8| &7(" + (powerUp.isEnabled() ? "&a" : "&c") + powerUp.getID() + "&7)"));
 
-      StringBuilder hover = new StringBuilder();
+      final TextComponent tc = new TextComponent(utils.translate(powerUp.getName() + " &8| &7(" + (powerUp.isEnabled() ? "&a" : "&c") + powerUp.getID() + "&7)"));
+      final StringBuilder hover = new StringBuilder();
 
       hover.append("\n").append(utils.translate("&bHologram"));
       powerUp.getHologram().forEach(s -> hover.append("\n").append(utils.translate(s)));

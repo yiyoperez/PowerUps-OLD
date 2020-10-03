@@ -1,11 +1,13 @@
 package com.strixmc.powerup.utilities;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.strixmc.powerup.PowerUpsPlugin;
+import com.strixmc.powerup.cache.ActiveHologramsCache;
 import com.strixmc.powerup.cache.PowerUpsCache;
 import com.strixmc.powerup.loaders.CommandsLoader;
 import com.strixmc.powerup.loaders.LangUtilityLoader;
@@ -37,6 +39,8 @@ public class BinderModule extends AbstractModule {
 
     bind(new TypeLiteral<CacheProvider<String, PowerUp>>() {
     }).annotatedWith(Names.named("PowerUpsCache")).to(PowerUpsCache.class);
+    bind(new TypeLiteral<CacheProvider<String, Hologram>>() {
+    }).annotatedWith(Names.named("ActiveHologramsCache")).to(ActiveHologramsCache.class);
 
     this.bind(ServiceManager.class).annotatedWith(Names.named("Plugin-Service")).to(PluginService.class);
 

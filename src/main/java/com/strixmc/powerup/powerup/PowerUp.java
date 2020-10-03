@@ -10,9 +10,11 @@ public interface PowerUp {
   String getID();
 
   String getMaterial();
+
   void setMaterial(String material);
 
   short getData();
+
   void setData(short data);
 
   String getName();
@@ -32,7 +34,5 @@ public interface PowerUp {
   List<String> getActions();
 
   ItemStack getItem();
-
-  void setItem(ItemStack item);
 
 }

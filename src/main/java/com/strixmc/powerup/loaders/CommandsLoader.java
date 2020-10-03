@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.strixmc.powerup.PowerUpsPlugin;
 import com.strixmc.powerup.commands.PowerUpCommand;
+import com.strixmc.powerup.utilities.BukkitTranslationProvider;
 import com.strixmc.universal.loader.LoaderManager;
 import me.fixeddev.commandflow.CommandManager;
 import me.fixeddev.commandflow.annotated.AnnotatedCommandTreeBuilder;
@@ -22,6 +23,7 @@ public class CommandsLoader implements LoaderManager {
   @Override
   public void load() {
     CommandManager commandManager = new BukkitCommandManager(main.getName());
+    commandManager.getTranslator().setProvider(new BukkitTranslationProvider());
     PartInjector injector = PartInjector.create();
     injector.install(new DefaultsModule());
     injector.install(new BukkitModule());
