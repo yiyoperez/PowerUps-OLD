@@ -19,7 +19,6 @@ public class PowerUpBuilder implements PowerUp {
   @Getter @Setter private double chance;
   @Getter private List<String> hologram;
   @Getter private List<String> actions;
-  private ItemStack item;
 
   public PowerUpBuilder(String ID, String name, double chance, List<String> hologram, List<String> actions, boolean enabled, String material, short data) {
     this.ID = ID;
