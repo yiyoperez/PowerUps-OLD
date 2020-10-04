@@ -26,9 +26,11 @@ public class PowerUpCommand implements CommandClass {
   @Inject private Utils utils;
 
 
-  //TODO: Implement CommandContext.
   @Command(names = "")
   public boolean command(@Sender Player p) {
+
+    lang.getHelp().forEach(p::sendMessage);
+
 /*
     lang.getHelp().forEach(s -> {
       s = s.replace("<command>", context.getCommand().getName());

@@ -25,9 +25,9 @@ public interface PowerUp {
 
   void setEnabled(boolean value);
 
-  double getChance();
+  int getChance();
 
-  void setChance(double chance);
+  void setChance(int chance);
 
   List<String> getHologram();
 

@@ -8,16 +8,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
-public class ActiveHologramsCache implements CacheProvider<String, Hologram> {
+public class ActiveHologramsCache implements CacheProvider<Long, Hologram> {
 
-  private Map<String, Hologram> hologramMap;
+  private Map<Long, Hologram> hologramMap;
 
   public ActiveHologramsCache() {
     this.hologramMap = new ConcurrentHashMap<>();
   }
 
   @Override
-  public Map<String, Hologram> get() {
+  public Map<Long, Hologram> get() {
     return this.hologramMap;
   }
 }

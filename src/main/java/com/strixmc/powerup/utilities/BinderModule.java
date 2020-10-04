@@ -11,7 +11,9 @@ import com.strixmc.powerup.cache.ActiveHologramsCache;
 import com.strixmc.powerup.cache.PowerUpsCache;
 import com.strixmc.powerup.loaders.CommandsLoader;
 import com.strixmc.powerup.loaders.LangUtilityLoader;
+import com.strixmc.powerup.loaders.ListenersLoader;
 import com.strixmc.powerup.powerup.PowerUp;
+import com.strixmc.powerup.services.ActiveHologramsService;
 import com.strixmc.powerup.services.PluginService;
 import com.strixmc.powerup.services.PowerUpsService;
 import com.strixmc.powerup.utilities.lang.LangUtility;
@@ -39,14 +41,15 @@ public class BinderModule extends AbstractModule {
 
     bind(new TypeLiteral<CacheProvider<String, PowerUp>>() {
     }).annotatedWith(Names.named("PowerUpsCache")).to(PowerUpsCache.class);
-    bind(new TypeLiteral<CacheProvider<String, Hologram>>() {
+    bind(new TypeLiteral<CacheProvider<Long, Hologram>>() {
     }).annotatedWith(Names.named("ActiveHologramsCache")).to(ActiveHologramsCache.class);
 
     this.bind(ServiceManager.class).annotatedWith(Names.named("Plugin-Service")).to(PluginService.class);
-
     this.bind(ServiceManager.class).annotatedWith(Names.named("PowerUpsService")).to(PowerUpsService.class);
+    this.bind(ServiceManager.class).annotatedWith(Names.named("ActiveHologramsService")).to(ActiveHologramsService.class);
 
     this.bind(LoaderManager.class).annotatedWith(Names.named("CommandsLoader")).to(CommandsLoader.class);
     this.bind(LoaderManager.class).annotatedWith(Names.named("LangUtilityLoader")).to(LangUtilityLoader.class);
+    this.bind(LoaderManager.class).annotatedWith(Names.named("ListenersLoader")).to(ListenersLoader.class);
   }
 }

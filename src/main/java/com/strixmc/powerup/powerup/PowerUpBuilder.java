@@ -16,11 +16,11 @@ public class PowerUpBuilder implements PowerUp {
   @Getter @Setter private String material;
   @Getter @Setter private short data;
   @Getter @Setter private boolean enabled;
-  @Getter @Setter private double chance;
+  @Getter @Setter private int chance;
   @Getter private List<String> hologram;
   @Getter private List<String> actions;
 
-  public PowerUpBuilder(String ID, String name, double chance, List<String> hologram, List<String> actions, boolean enabled, String material, short data) {
+  public PowerUpBuilder(String ID, String name, int chance, List<String> hologram, List<String> actions, boolean enabled, String material, short data) {
     this.ID = ID;
     this.name = name;
     this.chance = chance;
@@ -31,12 +31,12 @@ public class PowerUpBuilder implements PowerUp {
     this.data = data;
   }
 
-  public PowerUpBuilder(String ID, String name, String material, short data, double chance, List<String> hologram, List<String> actions) {
+  public PowerUpBuilder(String ID, String name, String material, short data, int chance, List<String> hologram, List<String> actions) {
     this(ID, name, chance, hologram, actions, false, material, data);
   }
 
   public PowerUpBuilder(String ID, String name) {
-    this(ID, name, 1.0, Arrays.asList("&eDefault PowerUp", "&eHologram text."), Arrays.asList("[MESSAGE] Hey, this action works!", "[SOUND] ARROW_HIT;1.0;1.0"), false, "STONE", (short) 0);
+    this(ID, name, 100, Arrays.asList("&eDefault PowerUp", "&eHologram text."), Arrays.asList("[MESSAGE] Hey, this action works!", "[SOUND] ARROW_HIT;1.0;1.0"), false, "STONE", (short) 0);
   }
 
   @Override

@@ -36,7 +36,7 @@ public class PowerUpsService implements ServiceManager {
       final String name = fileCreator.getString("NAME");
       final String material = fileCreator.getString("MATERIAL");
       final short data = (short) fileCreator.getInt("DATA");
-      final double chance = fileCreator.getDouble("CHANCE");
+      final int chance = fileCreator.getInt("CHANCE");
       final boolean enabled = fileCreator.getBoolean("ENABLED");
       final List<String> hologram = fileCreator.getStringList("HOLOGRAM");
       final List<String> actions = fileCreator.getStringList("ACTIONS");
@@ -50,6 +50,7 @@ public class PowerUpsService implements ServiceManager {
 
     powerUpCacheProvider.get().forEach((s, powerUp) -> {
       final FileCreator file = new FileCreator(main, s, ".yml", folder);
+      file.set("ENABLED", powerUp.isEnabled());
       file.set("NAME", powerUp.getName());
       file.set("CHANCE", powerUp.getChance());
       file.set("MATERIAL", powerUp.getMaterial());

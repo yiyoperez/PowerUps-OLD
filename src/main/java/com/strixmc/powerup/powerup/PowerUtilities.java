@@ -14,11 +14,7 @@ import com.google.inject.name.Named;
 import com.strixmc.powerup.PowerUpsPlugin;
 import com.strixmc.powerup.utilities.Utils;
 import com.strixmc.universal.cache.CacheProvider;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.Effect;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.ConsoleCommandSender;
@@ -35,7 +31,7 @@ import java.util.regex.Pattern;
 public class PowerUtilities {
 
   @Inject private Utils utils;
-  @Inject @Named("ActiveHologramsCache") private CacheProvider<String, Hologram> activeHologramsCache;
+  @Inject @Named("ActiveHologramsCache") private CacheProvider<Long, Hologram> activeHologramsCache;
 
   //TODO IMPLEMENT XSERIES
 
@@ -146,18 +142,20 @@ public class PowerUtilities {
     powerUp.getHologram().forEach(text -> hologram.appendTextLine(utils.translate(text)));
     ItemLine itemLine = hologram.appendItemLine(powerUp.getItem());
     visibilityManager.setVisibleByDefault(true);
-    final String savedHologramID = powerUp.getID() + "_x" + location.getBlockX() + "y" + fixedY + "z" + location.getBlockZ();
-    activeHologramsCache.add(savedHologramID, hologram);
+    long savedHologramLong = System.currentTimeMillis();
+    activeHologramsCache.add(savedHologramLong, hologram);
+
+    //todo add types.
 
     itemLine.setTouchHandler(player -> {
       powerUpActions(player, powerUp.getActions(), powerUp);
-      activeHologramsCache.find(savedHologramID).ifPresent(ignored -> activeHologramsCache.remove(savedHologramID));
+      activeHologramsCache.find(savedHologramLong).ifPresent(ignored -> activeHologramsCache.remove(savedHologramLong));
       hologram.delete();
     });
 
     itemLine.setPickupHandler(player -> {
       powerUpActions(player, powerUp.getActions(), powerUp);
-      activeHologramsCache.find(savedHologramID).ifPresent(ignored -> activeHologramsCache.remove(savedHologramID));
+      activeHologramsCache.find(savedHologramLong).ifPresent(ignored -> activeHologramsCache.remove(savedHologramLong));
       hologram.delete();
     });
   }

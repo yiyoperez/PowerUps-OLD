@@ -11,6 +11,10 @@ Denied-Worlds:
   - thisworld
   - andthis_world
 
+# How long the hologram and PowerUp will be alive.
+# This is in seconds.
+POWERUP_LIFE: 60
+
 # Check more about powerups settings at the wiki https://github.com/yiyoperez/PowerUps/wiki
 
 # NO LONGER NEEDED | DEV BUILD

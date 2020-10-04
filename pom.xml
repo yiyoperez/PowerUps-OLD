@@ -124,6 +124,7 @@
             <scope>compile</scope>
         </dependency>
 
+        <!--JetbrainsAnnotations-->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>

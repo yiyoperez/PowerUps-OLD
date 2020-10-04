@@ -17,20 +17,25 @@ public class PluginService implements ServiceManager {
 
   @Inject private PowerUpsPlugin main;
   @Inject @Named("CommandsLoader") private LoaderManager commandsLoader;
+  @Inject @Named("ListenersLoader") private LoaderManager listenersLoader;
   @Inject @Named("LangUtilityLoader") private LoaderManager langUtilityLoader;
   @Inject @Named("PowerUpsService") private ServiceManager powerUpsService;
+  @Inject @Named("ActiveHologramsService") private ServiceManager activeHolograms;
 
   @Override
   public void start() {
     createConfig();
     powerUpsService.start();
+    activeHolograms.start();
 
     langUtilityLoader.load();
     commandsLoader.load();
+    listenersLoader.load();
   }
 
   @Override
   public void stop() {
+    activeHolograms.stop();
     powerUpsService.stop();
   }
 
