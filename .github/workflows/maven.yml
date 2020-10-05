@@ -25,4 +25,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: PowerUps-Artifacts
-        path: Bukkit/target/Bukkit-*.jar
+        path: PowerUps/Bukkit/target/Bukkit-*.jar
