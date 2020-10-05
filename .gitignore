@@ -1,3 +1,6 @@
 target/
 PowerUps.iml
 .idea/
+
+*/*/target/
+*/*.iml

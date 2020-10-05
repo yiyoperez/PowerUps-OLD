@@ -1,20 +1,21 @@
 # Holographic Displays - PowerUps
 <p>Better and less trash plugin.</p>
-
-## Plugin WIKI
-https://github.com/yiyoperez/PowerUps/wiki
+<br>
+This plugin spawns a random PowerUp, if it is picked-up or used it will give you what is specified in its configuration, be it commands, effects, messages etc.
 
 ### TO-DO
-- [ ] Finish Command.
-- [ ] Spawn Methods.
+- [ ] Add reload sub-command.
 - [ ] Your suggestions.
 
-### Built using:
-- [CommandFlow](https://github.com/unnamed/CommandFlow) (Command manager by Unnamed Team)
-- [XSeries](https://github.com/CryptoMorin/XSeries) (Titles, ActionBar)
-- [ConfigUpdater](https://www.spigotmc.org/threads/configupdater-keep-comments-and-values.398466/) (Configuration updater)
+## WIKI
+https://github.com/yiyoperez/PowerUps/wiki
 
 ### Dependencies
 - Java8
 - Spigot 1.8
 - [HolographicDisplays](https://dev.bukkit.org/projects/holographic-displays)
+
+### Thanks to:
+- [CommandFlow](https://github.com/unnamed/CommandFlow) (Command manager by Unnamed Team)
+- [XSeries](https://github.com/CryptoMorin/XSeries) (Titles, ActionBar)
+- [ConfigUpdater](https://www.spigotmc.org/threads/configupdater-keep-comments-and-values.398466/) (Configuration updater)
