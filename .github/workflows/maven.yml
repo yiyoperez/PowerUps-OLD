@@ -24,5 +24,5 @@ jobs:
       run: mvn -B package --file pom.xml
     - uses: actions/upload-artifact@v1
       with:
-        name: artifact
-        path: Bukkit/target/
+        name: PowerUps
+        path: Bukkit/target/*.jar
