@@ -21,9 +21,10 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Upload Artifacts
-      run: mkdir staging && cp PowerUps/Bukkit/*.jar staging
-    - uses: actions/upload-artifact@v2
-      with:
-        name: PowerUps
-        path: staging
+  upload_artifacts:
+    name: Artifacs upload.
+    runs-on: ubuntu-latest
+    steps:
+    - name: Maven release (fork)
+      uses: MiniDigger/github-actions-maven-release@v1.10.2
+
