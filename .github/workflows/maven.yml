@@ -22,7 +22,9 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@master
       with:
         name: PowerUps-Artifacts
-        path: PowerUps/Bukkit/target/Bukkit-*.jar
+        path: |
+          Bukkit/target/Bukkit-*.jar
+          PowerUps/Bukkit/target/Bukkit-*.jar
