@@ -26,5 +26,4 @@ jobs:
       with:
         name: PowerUps-Artifacts
         path: |
-          Bukkit/target/Bukkit-*.jar
-          PowerUps/Bukkit/target/Bukkit-*.jar
+          jars/Bukkit-*.jar
