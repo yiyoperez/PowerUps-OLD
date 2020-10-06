@@ -1,6 +1,7 @@
 target/
 PowerUps.iml
 .idea/
+jars/
 
 */*/target/
 */*.iml
