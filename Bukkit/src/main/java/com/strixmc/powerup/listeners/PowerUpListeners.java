@@ -29,15 +29,13 @@ public class PowerUpListeners implements Listener {
     if (available.isEmpty()) return;
 
     PowerUp powerUp = available.get(ThreadLocalRandom.current().nextInt(available.size()));
-    //double chance = (powerUp.getChance() * 100.0) / 100;
 
-/*    p.sendMessage("Chosen powerup was " + powerUp.getName());
-    p.sendMessage("Normal Chance is " + powerUp.getChance());
-    p.sendMessage("Chance is " + chance);*/
+    //    p.sendMessage("Chosen powerup was " + powerUp.getName());
+    //    p.sendMessage("Normal Chance is " + powerUp.getChance());
+    //    p.sendMessage("Chance is " + powerUp.getChance());
 
-    //double random = BigDecimal.valueOf(new Random().nextDouble() * 100).setScale(2, RoundingMode.HALF_UP).doubleValue();
     int random = new Random().nextInt(100);
-    //    p.sendMessage("Random is " + random);
+    //p.sendMessage("Random is " + random);
     if (powerUp.getChance() >= random) {
       powerUtilities.spawnPowerUp(powerUp, p.getLocation());
     }

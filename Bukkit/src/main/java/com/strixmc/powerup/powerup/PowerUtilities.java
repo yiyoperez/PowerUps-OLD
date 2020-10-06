@@ -129,11 +129,6 @@ public class PowerUtilities {
   public void spawnPowerUp(@NotNull PowerUp powerUp, @NotNull Location location) {
 
     final double i = 0.25 * powerUp.getHologram().size();
-/*
-    for (int j = 0; j < powerUp.getHologram().size(); j++) {
-      i = i + 0.25;
-    }
-*/
     final double fixedY = getGroundLocation(location).getY() + 0.67 + i;
     location.setY(fixedY);
     Hologram hologram = HologramsAPI.createHologram(JavaPlugin.getPlugin(PowerUpsPlugin.class), location);
@@ -149,15 +144,15 @@ public class PowerUtilities {
 
     itemLine.setTouchHandler(player -> {
       powerUpActions(player, powerUp.getActions(), powerUp);
-      activeHologramsCache.find(savedHologramLong).ifPresent(ignored -> activeHologramsCache.remove(savedHologramLong));
       hologram.delete();
     });
 
     itemLine.setPickupHandler(player -> {
       powerUpActions(player, powerUp.getActions(), powerUp);
-      activeHologramsCache.find(savedHologramLong).ifPresent(ignored -> activeHologramsCache.remove(savedHologramLong));
       hologram.delete();
     });
+
+    activeHologramsCache.find(savedHologramLong).ifPresent(ignored -> activeHologramsCache.remove(savedHologramLong));
   }
 
   public Location getGroundLocation(@NotNull Location location) {

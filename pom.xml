@@ -10,6 +10,7 @@
     <version>1.0</version>
     <modules>
         <module>Common</module>
+        <module>GUIFramework</module>
         <module>Bukkit</module>
     </modules>
 

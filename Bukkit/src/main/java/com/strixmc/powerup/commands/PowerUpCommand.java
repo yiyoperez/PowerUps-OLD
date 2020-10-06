@@ -3,11 +3,14 @@ package com.strixmc.powerup.commands;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.strixmc.common.cache.CacheProvider;
+import com.strixmc.powerup.PowerUpsPlugin;
+import com.strixmc.powerup.menus.SelectorMenu;
 import com.strixmc.powerup.powerup.PowerUp;
-import com.strixmc.powerup.utilities.lang.LangUtility;
 import com.strixmc.powerup.powerup.PowerUpImpl;
 import com.strixmc.powerup.powerup.PowerUtilities;
 import com.strixmc.powerup.utilities.Utils;
+import com.strixmc.powerup.utilities.lang.LangUtility;
+import me.fixeddev.commandflow.CommandContext;
 import me.fixeddev.commandflow.annotated.CommandClass;
 import me.fixeddev.commandflow.annotated.annotation.Command;
 import me.fixeddev.commandflow.annotated.annotation.OptArg;
@@ -24,19 +27,15 @@ public class PowerUpCommand implements CommandClass {
   @Inject private LangUtility lang;
   @Inject private PowerUtilities powerUtilities;
   @Inject private Utils utils;
-
+  @Inject private PowerUpsPlugin main;
 
   @Command(names = "")
-  public boolean command(@Sender Player p) {
-
-    lang.getHelp().forEach(p::sendMessage);
-
-/*
+  public boolean command(@Sender Player p, CommandContext context) {
     lang.getHelp().forEach(s -> {
-      s = s.replace("<command>", context.getCommand().getName());
+      String label = String.join(" ", context.getLabels());
+      s = s.replace("<command>", label);
       p.sendMessage(s);
     });
-*/
     return true;
   }
 
@@ -191,6 +190,8 @@ public class PowerUpCommand implements CommandClass {
       p.sendMessage(lang.getNoAvailablePowerUp());
       return true;
     }
+
+    new SelectorMenu(main, p, "Edit Menu", () -> powerUpCacheProvider.get().values());
 
     p.sendMessage(lang.getAvailablePowerUp());
     powerUpCacheProvider.get().forEach((id, powerUp) -> {
